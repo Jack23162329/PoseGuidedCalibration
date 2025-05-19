@@ -15,10 +15,9 @@ Authors: Nathaniel Rensly, Zheng‑Kai Chen, Hsuan‑Cheng Chu, and Huang‑Chia
 3. [Features](#features)
 4. [Method Overview](#method-overview)
 5. [Prerequisites](#prerequisites)
-6. [Installation](#installation)
-7. [Usage](#usage)
-8. [Results & Evaluation](#results--evaluation)
-9. [Citation](#citation)
+6. [Usage](#usage)
+7. [Results & Evaluation](#results--evaluation)
+8. [Citation](#citation)
 
 ---
 
@@ -58,33 +57,14 @@ Traditional camera calibration relies on specialized patterns (checkerboards, sp
 ## Prerequisites
 
 * **Python** ≥ 3.8
-
-### Python Packages
-
-Install via `requirements.txt` or manually:
-
-```bash
-pip install numpy opencv-python torch torchvision vidgear matplotlib scipy
-```
-
-* `higherhrnet` & `mediapipe` (optional alternatives)
-* `superglue` weights in `models/`
-* `torch.cuda` enabled for performance
-
-## Installation
-
-```bash
-# Clone repository
-git clone https://github.com/Jack23162329/PoseGuidedCalibration.git
-cd PoseGuidedCalibration
-
-# Create & activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
+* numpy ≥ 1.19
+* pandas ≥ 1.1
+* opencv-python ≥ 4.5
+* torch ≥ 1.12
+* torchvision ≥ 0.13
+* vidgear ≥ 0.2
+* matplotlib ≥ 3.3
+* scipy ≥ 1.6
 
 ## Usage
 
