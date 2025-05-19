@@ -26,6 +26,9 @@ Authors: Nathaniel Rensly, Zheng‑Kai Chen, Hsuan‑Cheng Chu, and Huang‑Chia
 
 Traditional camera calibration relies on specialized patterns (checkerboards, spheres) and can be cumbersome or infeasible in dynamic scenes. Our repository implements the method described in Rensly *et al.* (ICCE 2025), which uses detected human joint keypoints as reference points for multi‑camera self‑calibration. By combining state‑of‑the‑art 2D pose estimation (HigherHRNet) with deep feature matching (SuperGlue) and an iterative joint optimization scheme in PyTorch, we achieve accurate intrinsics/extrinsics without physical calibration targets.
 
+![image](https://github.com/user-attachments/assets/e7dfd59b-0b6f-49f4-8c47-2347e30671af)
+
+
 ## Key Contributions
 
 * **Pattern‑free Calibration**: Eliminates the need for checkerboards or printed patterns—just a person performing a slow, controlled spin.
@@ -36,11 +39,11 @@ Traditional camera calibration relies on specialized patterns (checkerboards, sp
 
 ## Features
 
-* 📷 **Multi‑camera Support**: Calibrate any synchronized pair (or network) of cameras.
-* 🤖 **Pose‑Estimation**: Integration with HigherHRNet for robust 2D joint detection.
-* 🔗 **Feature Matching**: SuperGlue adaptation for precise keypoint matching.
-* ⚙️ **Optimization Pipeline**: Scripts and notebooks for DLT baseline and PyTorch joint optimization.
-* 📊 **Visualization**: Auto‑generated reprojection error plots and 3D reconstruction previews.
+* **Multi‑camera Support**: Calibrate any synchronized pair (or network) of cameras.
+* **Pose‑Estimation**: Integration with HigherHRNet for robust 2D joint detection.
+* **Feature Matching**: SuperGlue adaptation for precise keypoint matching.
+* **Optimization Pipeline**: Scripts and notebooks for DLT baseline and PyTorch joint optimization.
+* **Visualization**: Auto‑generated reprojection error plots and 3D reconstruction previews.
 
 ## Method Overview
 
@@ -55,8 +58,6 @@ Traditional camera calibration relies on specialized patterns (checkerboards, sp
 ## Prerequisites
 
 * **Python** ≥ 3.8
-* **Jupyter Notebook** / **JupyterLab**
-* **Git** and **pip** (or **conda**)
 
 ### Python Packages
 
@@ -104,7 +105,10 @@ pip install -r requirements.txt
 ## Results & Evaluation
 
 * **Average Reprojection Error**: Typically < 0.5 px across test rotations, matching or exceeding Zhang’s checkerboard method.
-* **3D Reconstruction**: Visualization of triangulated human skeleton (please see `output/visualizations/` for examples).
+* **3D Reconstruction**: Visualization of triangulated human skeleton (please see `output/visualizations/` for examples or check the image below).
+
+![image](https://github.com/user-attachments/assets/3538cdd9-8c7a-4672-b2ad-d3de11a0a0b9)
+
 
 Charts and comparisons are auto‑generated in the notebooks (see Fig. 2–6 in the original paper).
 
