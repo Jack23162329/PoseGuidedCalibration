@@ -68,19 +68,12 @@ Traditional camera calibration relies on specialized patterns (checkerboards, sp
 
 ## Usage
 
-1. **Launch Jupyter**:
+* `calibration_numpy.ipynb`: DLT + normalization baseline.
+* `calibration_torch_Jack.ipynb`: End‑to‑end PyTorch joint optimization.
+* `multicamera.ipynb`: Multi‑camera synchronization & keypoint aggregation.
+* `superglue_multi.ipynb`: SuperGlue feature matching pipeline.
 
-   ```bash
-   jupyter notebook
-   ```
-2. **Open a demo notebook**:
-
-   * `calibration_numpy.ipynb`: DLT + normalization baseline.
-   * `calibration_torch_Jack.ipynb`: End‑to‑end PyTorch joint optimization.
-   * `multicamera.ipynb`: Multi‑camera synchronization & keypoint aggregation.
-   * `superglue_multi.ipynb`: SuperGlue feature matching pipeline.
-
-> **Tip**: Edit path variables (`DATA_DIR`, `MODEL_DIR`) at the top of each notebook to point at your local data and model files.
+> Edit path variables (`DATA_DIR`, `MODEL_DIR`) at the top of each notebook to point at your local data and model files.
 
 ## Results & Evaluation
 
