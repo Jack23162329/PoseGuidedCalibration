@@ -1,121 +1,128 @@
 # PoseGuidedCalibration
 
-Human Pose–Guided Joint Optimization for Camera Auto-Calibration with Unknown Intrinsics  
-(ICCE 2025, Oral Presentation)
+**Human Pose–Guided Joint Optimization for Camera Auto‑Calibration with Unknown Intrinsics**
+
+Authors: Nathaniel Rensly, Zheng‑Kai Chen, Hsuan‑Cheng Chu, and Huang‑Chia Shih (Yuan Ze University, Taiwan)
+
+[Download the full paper (PDF)](stamped.pdf)
+
+---
 
 ## Table of Contents
-1. [Introduction](#introduction)  
-2. [Directory Structure](#directory-structure)  
-3. [Prerequisites](#prerequisites)  
-4. [Installation](#installation)  
-5. [Usage](#usage)  
-6. [Data & Output](#data--output)  
-7. [License](#license)  
+
+1. [Abstract](#abstract)
+2. [Key Contributions](#key-contributions)
+3. [Features](#features)
+4. [Method Overview](#method-overview)
+5. [Prerequisites](#prerequisites)
+6. [Installation](#installation)
+7. [Usage](#usage)
+8. [Results & Evaluation](#results--evaluation)
+9. [Citation](#citation)
 
 ---
 
-## Introduction
-This repository implements a novel camera self-calibration pipeline that leverages detected human joint keypoints as calibration targets. The core steps are:
+## Abstract
 
-- **DLT** + normalization → compute **intrinsics** & **extrinsics**  
-- **PyTorch** implementation for joint optimization  
-- Multi-camera fusion via **SuperPoint/SuperGlue** feature matching  
+Traditional camera calibration relies on specialized patterns (checkerboards, spheres) and can be cumbersome or infeasible in dynamic scenes. Our repository implements the method described in Rensly *et al.* (ICCE 2025), which uses detected human joint keypoints as reference points for multi‑camera self‑calibration. By combining state‑of‑the‑art 2D pose estimation (HigherHRNet) with deep feature matching (SuperGlue) and an iterative joint optimization scheme in PyTorch, we achieve accurate intrinsics/extrinsics without physical calibration targets.
 
----
+## Key Contributions
 
-## Directory Structure
-PoseGuidedCalibration/
-├── asset/ # pretrained model weights or example images
-├── data/ # calibration images & pose files
-├── data_archive/ # archived datasets from older experiments
-├── models/ # SuperPoint / SuperGlue weights
-├── output/ # calibration results & visualizations
-│ └── visualizations/ # generated plots and images
-├── calibration_numpy.ipynb # numpy-based DLT demo
-├── calibration_torch_Jack.ipynb # PyTorch optimization demo
-├── multicamera.ipynb # multi-camera synchronization & calibration
-├── superglue_multi.ipynb # SuperGlue-based feature matching demo
-├── requirements.txt # Python dependencies
-├── LICENSE
-└── README.md
----
+* **Pattern‑free Calibration**: Eliminates the need for checkerboards or printed patterns—just a person performing a slow, controlled spin.
+* **Pose‑Based Correspondences**: Uses high‑confidence human joint detections (HigherHRNet) as calibration anchors.
+* **Deep Feature Matching**: Adapts SuperGlue’s 256‑D descriptors to refine joint correspondences across views.
+* **Joint Optimization**: Alternating Adam‑based optimization of intrinsics and extrinsics, with one camera anchored (identity pose) for stability.
+* **PyTorch & CUDA**: End‑to‑end GPU acceleration enables iterative refinement and near‑real‑time performance.
+
+## Features
+
+* 📷 **Multi‑camera Support**: Calibrate any synchronized pair (or network) of cameras.
+* 🤖 **Pose‑Estimation**: Integration with HigherHRNet for robust 2D joint detection.
+* 🔗 **Feature Matching**: SuperGlue adaptation for precise keypoint matching.
+* ⚙️ **Optimization Pipeline**: Scripts and notebooks for DLT baseline and PyTorch joint optimization.
+* 📊 **Visualization**: Auto‑generated reprojection error plots and 3D reconstruction previews.
+
+## Method Overview
+
+1. **Capture**: Two cameras record a subject slowly rotating with arms extended.
+2. **2D Joint Detection**: Detect 17 COCO‑standard keypoints with HigherHRNet; filter by confidence thresholds.
+3. **Feature Matching**: Use SuperGlue to extract 256‑D descriptors near each joint; match across views.
+4. **Initial Calibration**: Compute fundamental matrix (8‑point + SVD rank‑2 enforcement) → essential matrix → four candidate extrinsics.
+5. **Triangulation & Selection**: Triangulate points, choose R, t combination with positive depths and minimal error.
+6. **Joint Optimization**: Alternate between fixing intrinsics/extrinsics and optimize the other via Adam to minimize reprojection loss.
+7. **Evaluation**: Compute Average Reprojection Error (ARE) and compare against Zhang’s method.
 
 ## Prerequisites
 
-1. **Python**  
-   - Version 3.8 or higher  
+* **Python** ≥ 3.8
+* **Jupyter Notebook** / **JupyterLab**
+* **Git** and **pip** (or **conda**)
 
-2. **Jupyter Notebook / JupyterLab**  
-   - To run the `.ipynb` demos  
+### Python Packages
 
-3. **System tools**  
-   - `git`  
-   - `pip` (or `conda`)  
+Install via `requirements.txt` or manually:
 
-4. **Python packages**  
-   It’s recommended to use a virtual environment. Then install:
-   ```bash
-   pip install -r requirements.txt
-If you don’t have a requirements.txt, install:
 ```bash
 pip install numpy opencv-python torch torchvision vidgear matplotlib scipy
-numpy
-
-opencv-python
-
-torch, torchvision
-
-vidgear (for multi-stream capture)
-
-matplotlib, scipy
 ```
 
-# 1. Clone this repo
+* `higherhrnet` & `mediapipe` (optional alternatives)
+* `superglue` weights in `models/`
+* `torch.cuda` enabled for performance
+
+## Installation
+
+```bash
+# Clone repository
 git clone https://github.com/Jack23162329/PoseGuidedCalibration.git
 cd PoseGuidedCalibration
 
-# 2. Create and activate a virtual environment
+# Create & activate virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
-# 3. Install dependencies
-```bash
+# Install dependencies
 pip install -r requirements.txt
 ```
-Usage
-Launch Jupyter
 
-jupyter notebook
-Then open one of the notebooks:
+## Usage
 
-calibration_numpy.ipynb
-Classic DLT + normalization calibration flow
+1. **Launch Jupyter**:
 
-1. multicamera.ipynb
-Multi-camera capture & calibration
+   ```bash
+   jupyter notebook
+   ```
+2. **Open a demo notebook**:
 
-2. superglue_multi.ipynb
-Feature matching with SuperPoint / SuperGlue
+   * `calibration_numpy.ipynb`: DLT + normalization baseline.
+   * `calibration_torch_Jack.ipynb`: End‑to‑end PyTorch joint optimization.
+   * `multicamera.ipynb`: Multi‑camera synchronization & keypoint aggregation.
+   * `superglue_multi.ipynb`: SuperGlue feature matching pipeline.
 
-3. calibration_torch_Jack.ipynb
-PyTorch-based joint optimization
+> **Tip**: Edit path variables (`DATA_DIR`, `MODEL_DIR`) at the top of each notebook to point at your local data and model files.
 
+## Results & Evaluation
 
-Tip: At the top of each notebook you’ll find editable paths like DATA_DIR and MODEL_DIR. Adjust them to your local setup.
+* **Average Reprojection Error**: Typically < 0.5 px across test rotations, matching or exceeding Zhang’s checkerboard method.
+* **3D Reconstruction**: Visualization of triangulated human skeleton (please see `output/visualizations/` for examples).
 
-Data & Output
-Input data
+Charts and comparisons are auto‑generated in the notebooks (see Fig. 2–6 in the original paper).
 
-Place raw calibration images (checkerboards or pose images) under data/
+## Citation
 
-Put pretrained model files into asset/ or models/
+If you use this code for your research, please cite:
 
-Output
+> Rensly, N., Chen, Z.‑K., Chu, H.‑C., & Shih, H.‑C. (2025). *Human Pose–Guided Joint Optimization for Camera Auto‑Calibration System with Unknown Intrinsics*. ICCE 2025.
 
-Calibrated intrinsics & extrinsics saved to output/
+```bibtex
+@inproceedings{rensly2025pose,
+  title={Human Pose–Guided Joint Optimization for Camera Auto‑Calibration System with Unknown Intrinsics},
+  author={Rensly, Nathaniel and Chen, Zheng‑Kai and Chu, Hsuan‑Cheng and Shih, Huang‑Chia},
+  booktitle={ICCE 2025},
+  year={2025}
+}
+```
 
-Visualization figures saved to output/visualizations/
+---
 
-License
-This project is released under the MIT License.
-
+*For detailed algorithmic derivations, refer to the PDF linked above.*
