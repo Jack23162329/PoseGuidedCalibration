@@ -8,19 +8,6 @@ Authors: Nathaniel Rensly, Zheng‑Kai Chen, Hsuan‑Cheng Chu, and Huang‑Chia
 
 ---
 
-## Table of Contents
-
-1. [Abstract](#abstract)
-2. [Key Contributions](#key-contributions)
-3. [Features](#features)
-4. [Method Overview](#method-overview)
-5. [Prerequisites](#prerequisites)
-6. [Usage](#usage)
-7. [Results & Evaluation](#results--evaluation)
-8. [Citation](#citation)
-
----
-
 ## Abstract
 
 Traditional camera calibration relies on specialized patterns (checkerboards, spheres) and can be cumbersome or infeasible in dynamic scenes. Our repository implements the method described in Rensly *et al.* (ICCE 2025), which uses detected human joint keypoints as reference points for multi‑camera self‑calibration. By combining state‑of‑the‑art 2D pose estimation (HigherHRNet) with deep feature matching (SuperGlue) and an iterative joint optimization scheme in PyTorch, we achieve accurate intrinsics/extrinsics without physical calibration targets.
